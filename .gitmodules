@@ -1,0 +1,3 @@
+[submodule "test-train-split-common"]
+	path = src/common
+	url = https://github.com/jiricekcz/test-train-split-common.git
