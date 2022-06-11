@@ -8,17 +8,10 @@ from logic.distance_matrix import NumpyDistanceMatrix
 class CLI:
     def __init__(self):
         self.api = API()
-    def run() -> None:
+    def run(self) -> None:
         parser = ArgumentParser()
 
 
         args: Args = parser.parse_args()
-
-        assetManager = MemoryAssetManager()
-        distanceCalculator = RandomDistanceCalculator()
-        distanceMatrix = NumpyDistanceMatrix(5)
-
-        m = SplitManager(distanceMatrix, assetManager, distanceCalculator)
-        print(m.getMatrix().getRawMatrix())
 
 
