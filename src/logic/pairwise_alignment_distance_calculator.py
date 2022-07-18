@@ -1,5 +1,5 @@
 from typing import Callable
-from common.interfaces.assest_manager import IAssetManager, IAsset
+from common.interfaces.asset_manager import IAssetManager, IAsset
 from common.interfaces.distance_calculator import IDistanceCalculator
 from common.interfaces.distance_matrix import IDistanceMatrix
 from Bio.Align import PairwiseAligner

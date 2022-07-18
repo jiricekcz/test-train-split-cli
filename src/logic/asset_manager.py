@@ -1,4 +1,4 @@
-from common.interfaces.assest_manager import IAssetManager, IAsset
+from common.interfaces.asset_manager import IAssetManager, IAsset
 from common.exceptions import AssetAppendException
 class MemoryAssetManager(IAssetManager):
     def __init__(self):

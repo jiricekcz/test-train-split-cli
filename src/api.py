@@ -1,7 +1,7 @@
 from typing import Callable
 from common.interfaces.distance_matrix import IDistanceMatrix
 from common.interfaces.distance_calculator import IDistanceCalculator
-from common.interfaces.assest_manager import IAssetManager
+from common.interfaces.asset_manager import IAssetManager
 class API:
     def __init__(self):
         pass

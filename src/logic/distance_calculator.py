@@ -1,6 +1,6 @@
 from random import random
 from typing import Callable
-from common.interfaces.assest_manager import IAssetManager
+from common.interfaces.asset_manager import IAssetManager
 from common.interfaces.distance_calculator import IDistanceCalculator
 from colorama import Fore, Style
 from common.interfaces.distance_matrix import IDistanceMatrix

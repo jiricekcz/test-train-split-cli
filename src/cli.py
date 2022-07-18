@@ -3,7 +3,7 @@ from argparse import ArgumentParser
 from common.types.cli import Args
 
 from logic.asset_manager import MemoryAssetManager
-from logic.distance_calculator import RandomDistanceCalculator
+from logic.pairwise_alignment_distance_calculator import PaiwiseAlignmentDistanceCalculator
 from logic.distance_matrix import NumpyDistanceMatrix
 class CLI:
     def __init__(self):
