@@ -18,5 +18,6 @@ class MemoryAssetManager(IAssetManager):
             self.assets[assetIndex] = asset
 
 class MemoryAsset(IAsset):
-    def __init__(self, sequence: str):
+    def __init__(self, sequence: str, name: str):
         self.sequence = sequence
+        self.name = name
