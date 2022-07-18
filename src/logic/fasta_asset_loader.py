@@ -13,6 +13,5 @@ class FastaAssetLoader(IAssetLoader):
         records = SeqIO.parse(self.filepath, "fasta")
         i = 0
         for r in records:
-            if i > 100: break
             assetManager.setAsset(i, MemoryAsset(r.seq, r.id))
             i += 1
