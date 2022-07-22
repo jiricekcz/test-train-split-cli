@@ -17,7 +17,7 @@ class PaiwiseAlignmentDistanceCalculator(IDistanceCalculator):
             assets: IAssetManager,
             statusReport: Callable[[int, int, float], None] = ...) -> None:
         total = distances.getMatrixSize()**2
-        for t, x, y, set in distances.elements():
+        for t, x, y, set in distances.elementsToFill():
             set(self.calculateDistance(assets.getAsset(x), assets.getAsset(y)))
             statusReport(t, total, float(t) / float(total))
 
