@@ -7,6 +7,7 @@ from Bio.Align import PairwiseAligner
 
 class PaiwiseAlignmentDistanceCalculator(IDistanceCalculator):
     aligner: PairwiseAligner
+
     def __init__(self):
         self.aligner: PairwiseAligner = PairwiseAligner()
 

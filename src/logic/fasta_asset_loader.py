@@ -4,8 +4,10 @@ from Bio import SeqIO
 
 from logic.asset_manager import MemoryAsset
 
+
 class FastaAssetLoader(IAssetLoader):
     filepath: str
+
     def __init__(self, filepath: str):
         self.filepath = filepath
 
