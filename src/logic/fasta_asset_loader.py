@@ -11,7 +11,7 @@ class FastaAssetLoader(IAssetLoader):
     def __init__(self, filepath: str):
         self.filepath = filepath
 
-    def loadAssets(self, assetManager: IAssetManager, limit=None) -> None:
+    def loadAssets(self, assetManager: IAssetManager, limit: int=None) -> None:
         records = SeqIO.parse(self.filepath, "fasta")
         i = 0
         for r in records:
