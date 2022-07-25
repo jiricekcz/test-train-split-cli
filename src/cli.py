@@ -6,8 +6,8 @@ from common.types.cli import Args
 
 from logic.asset_manager import MemoryAssetManager
 from logic.fasta_asset_loader import FastaAssetLoader
-from logic.pairwise_alignment_distance_calculator import PaiwiseAlignmentDistanceCalculator
-from logic.distance_matrix import NumpuDistanceMatrixDiskBackup
+from logic.pairwise_alignment_distance_calculator import PairwiseAlignmentDistanceCalculator, MultithreadedPairwiseAlignmentDistanceCalculator
+from logic.distance_matrix import NumpyDistanceMatrixDiskBackup, NumpyDistanceMatrix
 from util.abs_path import path
 
 
@@ -23,8 +23,8 @@ class CLI:
         loader = FastaAssetLoader(path(__file__, "../data/holo4k.fasta"))
         loader.loadAssets(assets, limit=468)
         assetCount = assets.getAssetCount()
-        manager = SplitManager(NumpuDistanceMatrixDiskBackup(assetCount, path(__file__, "../data/out/matrix.npy")), assets,
-                               PaiwiseAlignmentDistanceCalculator())
+        manager = SplitManager(NumpyDistanceMatrixDiskBackup(assetCount, path(__file__, "../data/out/matrix.npy")), assets,
+                               PairwiseAlignmentDistanceCalculator())
 
         t0 = time.time()
         manager.calculateDistances()

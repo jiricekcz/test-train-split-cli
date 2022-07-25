@@ -4,8 +4,7 @@ from common.interfaces.distance_calculator import IDistanceCalculator
 from common.interfaces.distance_matrix import IDistanceMatrix
 from Bio.Align import PairwiseAligner
 
-
-class PaiwiseAlignmentDistanceCalculator(IDistanceCalculator):
+class PairwiseAlignmentDistanceCalculator(IDistanceCalculator):
     aligner: PairwiseAligner
 
     def __init__(self):

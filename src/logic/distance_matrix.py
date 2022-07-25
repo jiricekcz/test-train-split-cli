@@ -28,7 +28,7 @@ class NumpyDistanceMatrix(IDistanceMatrix):
         return self.matrix.tolist()
 
 
-class NumpuDistanceMatrixDiskBackup(IDistanceMatrix):
+class NumpyDistanceMatrixDiskBackup(IDistanceMatrix):
     size: int
     matrix: numpy.ndarray
     file_name: str
@@ -45,6 +45,15 @@ class NumpuDistanceMatrixDiskBackup(IDistanceMatrix):
         self.save_loop_length = save_loop_length
         if load_on_init:
             self.load()
+            all = 0
+            filled = 0
+            for i in self.matrix:
+                for j in i:
+                    all += 1
+                    if j != 0:
+                        filled += 1
+            print(f"Loaded matrix with {filled}/{all} filled cells, that is {'{0:.1f}'.format(filled / all * 100)}%")
+
 
     def getRawDistance(self, x: int, y: int) -> int:
         return int(self.matrix[x][y])
