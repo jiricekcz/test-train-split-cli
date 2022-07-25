@@ -1,11 +1,13 @@
+import math
 from api import API, SplitManager
+import time
 from argparse import ArgumentParser
 from common.types.cli import Args
 
 from logic.asset_manager import MemoryAssetManager
 from logic.fasta_asset_loader import FastaAssetLoader
 from logic.pairwise_alignment_distance_calculator import PaiwiseAlignmentDistanceCalculator
-from logic.distance_matrix import NumpyDistanceMatrix
+from logic.distance_matrix import NumpuDistanceMatrixDiskBackup
 from util.abs_path import path
 
 
@@ -19,12 +21,15 @@ class CLI:
 
         assets = MemoryAssetManager()
         loader = FastaAssetLoader(path(__file__, "../data/holo4k.fasta"))
-        loader.loadAssets(assets, limit=10)
+        loader.loadAssets(assets, limit=468)
         assetCount = assets.getAssetCount()
-        manager = SplitManager(NumpyDistanceMatrix(assetCount), assets,
+        manager = SplitManager(NumpuDistanceMatrixDiskBackup(assetCount, path(__file__, "../data/out/matrix.npy")), assets,
                                PaiwiseAlignmentDistanceCalculator())
+
+        t0 = time.time()
         manager.calculateDistances()
-        print(manager.distance_matrix.getRawMatrix())
+        t1 = time.time()
+        print(f"""Calculation time: {'{0:.1f}'.format(t1 - t0)} s""")
 
     def parseArguments(self) -> None:
         parser = ArgumentParser()
