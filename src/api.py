@@ -2,6 +2,7 @@ from typing import Callable
 from common.interfaces.distance_matrix import IDistanceMatrix
 from common.interfaces.distance_calculator import IDistanceCalculator
 from common.interfaces.asset_manager import IAssetManager
+from common.interfaces.splitter import ISplit, ISplitter
 
 
 class API:
@@ -14,13 +15,16 @@ class SplitManager:
     distance_matrix: IDistanceMatrix
     assetManger: IAssetManager
     distanceCalculator: IDistanceCalculator
+    splitter: ISplitter
 
     def __init__(self, distance_matrix: IDistanceMatrix,
                  assetManger: IAssetManager,
-                 distanceCalculator: IDistanceCalculator):
+                 distanceCalculator: IDistanceCalculator,
+                 splitter: ISplitter):
         self.distance_matrix = distance_matrix
         self.assetManger = assetManger
         self.distanceCalculator = distanceCalculator
+        self.splitter = splitter
 
     def calculateDistances(
         self,
@@ -30,6 +34,9 @@ class SplitManager:
         self.distanceCalculator.calculateDistances(self.distance_matrix,
                                                    self.assetManger,
                                                    statusReport)
+
+    def getSplits(self) -> ISplit:
+        return self.splitter.calculateSplit(self.distance_matrix)
 
     def getMatrix(self) -> IDistanceMatrix:
         return self.distance_matrix
