@@ -35,8 +35,8 @@ class SplitManager:
                                                    self.assetManger,
                                                    statusReport)
 
-    def getSplits(self) -> ISplit:
-        return self.splitter.calculateSplit(self.distance_matrix)
+    def getSplits(self, distribution: "list[int]") -> ISplit:
+        return self.splitter.calculateSplit(self.distance_matrix, distribution)
 
     def getMatrix(self) -> IDistanceMatrix:
         return self.distance_matrix
