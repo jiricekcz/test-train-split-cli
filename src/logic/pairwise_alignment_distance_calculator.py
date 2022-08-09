@@ -2,13 +2,14 @@ from typing import Callable
 from common.interfaces.asset_manager import IAssetManager, IAsset
 from common.interfaces.distance_calculator import IDistanceCalculator
 from common.interfaces.distance_matrix import IDistanceMatrix
-from Bio.Align import PairwiseAligner
+from Bio.Align import PairwiseAligner, substitution_matrices
 
 class PairwiseAlignmentDistanceCalculator(IDistanceCalculator):
     aligner: PairwiseAligner
 
     def __init__(self):
         self.aligner: PairwiseAligner = PairwiseAligner()
+        self.aligner.substitution_matrix = substitution_matrices.load("BLOSUM62")
 
     def calculateDistances(
             self,
