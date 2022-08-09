@@ -45,13 +45,8 @@ class NumpyDistanceMatrixDiskBackup(IDistanceMatrix):
         self.save_loop_length = save_loop_length
         if load_on_init:
             self.load()
-            all = 0
-            filled = 0
-            for i in self.matrix:
-                for j in i:
-                    all += 1
-                    if j != 0:
-                        filled += 1
+            all = self.matrix.size
+            filled = len(self.matrix.nonzero()[0])
             print(f"Loaded matrix with {filled}/{all} filled cells, that is {'{0:.1f}'.format(filled / all * 100)}%")
 
 
@@ -76,8 +71,9 @@ class NumpyDistanceMatrixDiskBackup(IDistanceMatrix):
     def save(self) -> None:
         dir = os.path.dirname(self.file_name)
         os.makedirs(dir, exist_ok=True)
+        print(f"Saving matrix...\r", end="")
         self.matrix.tofile(self.file_name)
-        print("Matrix saved")
+        print("Matrix saved".ljust(30))
     def load(self) -> None:
         if not os.path.exists(self.file_name): return
         self.matrix = numpy.fromfile(self.file_name, dtype=numpy.uint16)
