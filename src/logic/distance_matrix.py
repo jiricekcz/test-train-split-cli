@@ -47,8 +47,10 @@ class NumpyDistanceMatrixDiskBackup(IDistanceMatrix):
             self.load()
             all = self.matrix.size
             filled = len(self.matrix.nonzero()[0])
-            print(f"Loaded matrix with {filled}/{all} filled cells, that is {'{0:.1f}'.format(filled / all * 100)}%")
+            print(f"Loaded matrix with {filled}/{all} filled cells, that is {'{0:.2f}'.format(filled / all * 100)}%")
 
+    def filledFraction(self) -> float:
+        return len(self.matrix.nonzero()[0]) / self.matrix.size
 
     def getRawDistance(self, x: int, y: int) -> int:
         return int(self.matrix[x][y])
@@ -73,7 +75,7 @@ class NumpyDistanceMatrixDiskBackup(IDistanceMatrix):
         os.makedirs(dir, exist_ok=True)
         print(f"Saving matrix...\r", end="")
         self.matrix.tofile(self.file_name)
-        print("Matrix saved".ljust(30))
+        print(f"Matrix saved, filled from {'{0:.2f}'.format(self.filledFraction() * 100)}%".ljust(30))
     def load(self) -> None:
         if not os.path.exists(self.file_name): return
         self.matrix = numpy.fromfile(self.file_name, dtype=numpy.uint16)
