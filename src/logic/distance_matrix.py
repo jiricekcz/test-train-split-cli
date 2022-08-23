@@ -27,6 +27,8 @@ class NumpyDistanceMatrix(IDistanceMatrix):
     def getRawMatrix(self) -> Iterable[Iterable[int]]:
         return self.matrix.tolist()
 
+    def getNumpyNDArray(self) -> numpy.ndarray:
+        return self.matrix
 
 class NumpyDistanceMatrixDiskBackup(IDistanceMatrix):
     size: int
@@ -81,5 +83,8 @@ class NumpyDistanceMatrixDiskBackup(IDistanceMatrix):
         self.matrix = numpy.fromfile(self.file_name, dtype=numpy.uint16)
         self.matrix = self.matrix.reshape(self.size, self.size)
 
+    def getNumpyNDArray(self) -> numpy.ndarray:
+        return self.matrix
+        
     def __del__(self):
         self.save()
