@@ -25,14 +25,12 @@ class AgglomerativeClusteringSplitter(ISplitter):
 
         self.clusterer.n_clusters = len(distribution)
         self.clusterer.fit(distances.getNumpyNDArray())
-        print(distances.getMatrixSize())
-        print(self.clusterer.labels_)
-        print(self.clusterer.children_)
         n_samples = len(self.clusterer.labels_)
         tree = ClusterTree(n_samples)
         for i, children in enumerate(self.clusterer.children_):
             tree.addParent(i + n_samples, children, distances.rawDistanceToDistance(self.clusterer.distances_[i]))
-        print(list(map(str, tree.getRoots())))
+
+
         
 class TreeNode:
     def __init__(self, id: int, children: list, depth: int):
