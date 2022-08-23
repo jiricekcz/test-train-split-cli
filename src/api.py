@@ -1,4 +1,4 @@
-from typing import Callable
+from typing import Callable, Iterable
 from common.interfaces.distance_matrix import IDistanceMatrix
 from common.interfaces.distance_calculator import IDistanceCalculator
 from common.interfaces.asset_manager import IAssetManager
@@ -35,7 +35,7 @@ class SplitManager:
                                                    self.assetManger,
                                                    statusReport)
 
-    def getSplits(self, distribution: "list[int]") -> ISplit:
+    def getSplits(self, distribution: "list[int]") -> Iterable[ISplit]:
         return self.splitter.calculateSplit(self.distance_matrix, distribution)
 
     def getMatrix(self) -> IDistanceMatrix:

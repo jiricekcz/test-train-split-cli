@@ -20,19 +20,22 @@ class CLI:
 
     def run(self) -> None:
         self.parseArguments()
-
+        limit = None
         assets = MemoryAssetManager()
         loader = FastaAssetLoader(path(__file__, "../data/holo4k.fasta"))
-        loader.loadAssets(assets, limit=15)
+        loader.loadAssets(assets, limit=limit)
+        filenameAddition = "" if limit == None else f"_{limit}x{limit}"
         assetCount = assets.getAssetCount()
-        manager = SplitManager(NumpyDistanceMatrixDiskBackup(assetCount, path(__file__, "../data/out/matrix_BLOSUM62_15x15.npy"), save_loop_length=100_000), assets,
-                               PairwiseAlignmentDistanceCalculator(), AgglomerativeClusteringSplitter(splitCount=10))
+        manager = SplitManager(NumpyDistanceMatrixDiskBackup(assetCount, path(__file__, f"../data/out/matrix_BLOSUM62{filenameAddition}.npy"), save_loop_length=100_000), assets,
+                               PairwiseAlignmentDistanceCalculator(), AgglomerativeClusteringSplitter(headstartFactor=15))
 
         t0 = time.time()
         manager.calculateDistances()
         t1 = time.time()
         print(f"""Calculation time: {'{0:.1f}'.format(t1 - t0)} s""")
-        print(manager.getSplits([500, 490, 1]))
+        splits = manager.getSplits([60, 30, 10])
+        for split in splits:
+            print(split)
 
     def parseArguments(self) -> None:
         parser = ArgumentParser()
