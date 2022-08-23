@@ -79,6 +79,19 @@ class AgglomerativeClusteringSplitter(ISplitter):
                     total += ((targetSum - currentSum[i])/targetSum)**2
             return total
 
+
+        def totalRelativeDistanceSquaredWithBiasAgainstOverflow(targetSums: list[float], currentSum: list[float], currentIndex: int, value: float) -> float:
+            total = 0
+            for i, targetSum in enumerate(targetSums):
+                if i == currentIndex:
+                    relDist = ((targetSum - currentSum[i] - value)/targetSum)
+                else:
+                    relDist = ((targetSum - currentSum[i])/targetSum)
+                if relDist < 0:
+                    total += relDist**2 * 5
+                else:
+                    total += relDist**2
+            return total
         def groupDistances(groups: list[list[int]], distances: IDistanceMatrix) -> list[list[float]]:
             gDistances = [[1 for _ in range(len(groups))] for _ in range(len(groups))]
             for i in range(len(groups)):
@@ -96,7 +109,7 @@ class AgglomerativeClusteringSplitter(ISplitter):
 
         for i in range(distances.getMatrixSize()):
             subgroupsPopCount = [subgroup.absoluteChildCount() for subgroup in subgroups]
-            groups = split(groupSizes, subgroupsPopCount, totalRelativeDistanceSquared)
+            groups = split(groupSizes, subgroupsPopCount, totalRelativeDistanceSquaredWithBiasAgainstOverflow)
             
             finalSplit: list[list[int]] = []
             for i, group in enumerate(groups):
@@ -108,7 +121,7 @@ class AgglomerativeClusteringSplitter(ISplitter):
             gDistances = groupDistances(finalSplit, distances)
             minDistance = min([min(row) for row in gDistances])
             yield Split(finalSplit, minDistance)
-            currentDistance = totalRelativeDistanceSquared(groupSizes, [len(group) for group in groups], 0, 0)
+            currentDistance = totalRelativeDistanceSquaredWithBiasAgainstOverflow(groupSizes, [len(group) for group in groups], 0, 0)
             if self.headstartFactor == None: steps = 1
             else: steps = int(currentDistance / len(groups) * distances.getMatrixSize() / (self.headstartFactor - 1) + 1)
             for _ in range(steps):
