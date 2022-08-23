@@ -31,7 +31,7 @@ class AgglomerativeClusteringSplitter(ISplitter):
         n_samples = len(self.clusterer.labels_)
         tree = ClusterTree(n_samples)
         for i, children in enumerate(self.clusterer.children_):
-            tree.addParent(i + n_samples, children, distances.self.clusterer.distances_[i]))
+            tree.addParent(i + n_samples, children, distances.rawDistanceToDistance(self.clusterer.distances_[i]))
         print(list(map(str, tree.getRoots())))
         
 class TreeNode:
@@ -41,7 +41,7 @@ class TreeNode:
         self.parent = None
         self.depth = depth
     def __str__(self) -> str:
-        return f"Node<{self.id}, {self.depth}>"
+        return f"Node<{self.id}, {'{0:.3f}'.format(self.depth)}>"
 class ClusterTree:
     nodes: list[TreeNode] = []
     def __init__(self, leafCount: int):
