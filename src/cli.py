@@ -26,7 +26,7 @@ class CLI:
         loader.loadAssets(assets, limit=15)
         assetCount = assets.getAssetCount()
         manager = SplitManager(NumpyDistanceMatrixDiskBackup(assetCount, path(__file__, "../data/out/matrix_BLOSUM62_15x15.npy"), save_loop_length=100_000), assets,
-                               PairwiseAlignmentDistanceCalculator(), AgglomerativeClusteringSplitter())
+                               PairwiseAlignmentDistanceCalculator(), AgglomerativeClusteringSplitter(splitCount=10))
 
         t0 = time.time()
         manager.calculateDistances()
