@@ -3,7 +3,9 @@ from common.exceptions import AssetAppendException
 
 
 class MemoryAssetManager(IAssetManager):
-
+    """
+    Holds assets in memory.
+    """
     def __init__(self):
         self.assets = []
 

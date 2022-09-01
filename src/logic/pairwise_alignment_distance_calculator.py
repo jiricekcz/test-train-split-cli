@@ -22,6 +22,7 @@ class PairwiseAlignmentDistanceCalculator(IDistanceCalculator):
             statusReport(t, total, float(t) / float(total))
 
     def calculateDistance(self, asset1: IAsset, asset2: IAsset) -> float:
+        # source: https://github.com/davidhoksza/bioinformatics-algo-labs/blob/main/03-sequence-alignment/lab.ipynb
         alignments = self.aligner.align(asset1.sequence, asset2.sequence)
         min_size = min(len(asset1.sequence), len(asset2.sequence))
         distance = np.sum(np.diagonal(alignments[0].substitutions)) / min_size

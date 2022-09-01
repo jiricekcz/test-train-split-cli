@@ -1,12 +1,12 @@
 import math
-from api import API, SplitManager
+from api import SplitManager
 import time
 from argparse import ArgumentParser
 from common.types.cli import Args
 
 from logic.asset_manager import MemoryAssetManager
 from logic.fasta_asset_loader import FastaAssetLoader
-from logic.pairwise_alignment_distance_calculator import PairwiseAlignmentDistanceCalculator, PairwiseAlignmentScoreDistanceCalculator
+from logic.pairwise_alignment_distance_calculator import PairwiseAlignmentDistanceCalculator
 from logic.distance_matrix import NumpyDistanceMatrixDiskBackup
 from logic.agglomerative_clustering_splitter import AgglomerativeClusteringSplitter
 
@@ -16,9 +16,12 @@ from util.abs_path import path
 class CLI:
 
     def __init__(self):
-        self.api = API()
+        pass
 
     def run(self) -> None:
+        """
+        Main function run when the program is started directly, that meaning not imported as a module.
+        """
         self.parseArguments()
         limit = 200
         assets = MemoryAssetManager()

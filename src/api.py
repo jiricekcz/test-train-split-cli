@@ -5,12 +5,6 @@ from common.interfaces.asset_manager import IAssetManager
 from common.interfaces.splitter import ISplit, ISplitter
 
 
-class API:
-
-    def __init__(self):
-        pass
-
-
 class SplitManager:
     distance_matrix: IDistanceMatrix
     assetManger: IAssetManager

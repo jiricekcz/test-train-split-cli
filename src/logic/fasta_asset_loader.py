@@ -6,6 +6,9 @@ from logic.asset_manager import MemoryAsset
 
 
 class FastaAssetLoader(IAssetLoader):
+    """
+    Loads assets from a fasta file.
+    """
     filepath: str
 
     def __init__(self, filepath: str):

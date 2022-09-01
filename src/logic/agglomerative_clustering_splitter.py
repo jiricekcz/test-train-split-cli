@@ -25,14 +25,14 @@ class AgglomerativeClusteringSplitter(ISplitter):
         self.clusterer = AgglomerativeClustering(n_clusters=None, affinity="precomputed", compute_full_tree=True, linkage="single", compute_distances=True)
 
     def calculateSplit(self, distances: IDistanceMatrix, distribution: "list[int]") -> Iterable[ISplit]:
-        groupSizes: list[int] = []
+        groupSizes: list[int] = [] # absolute group sizes calculated from distribution
         distSum = sum(distribution)
         for relative in distribution:
             groupSizes.append(relative / distSum * distances.getMatrixSize())
         
-        self.clusterer.n_clusters = 1
+        self.clusterer.n_clusters = 1 # calculate full tree
         self.clusterer.fit(distances.getNumpyNDArray())
-        n_samples = len(self.clusterer.labels_)
+        n_samples = len(self.clusterer.labels_) 
         tree: ClusterTree = ClusterTree(n_samples)
         
         for i, children in enumerate(self.clusterer.children_):
@@ -47,13 +47,16 @@ class AgglomerativeClusteringSplitter(ISplitter):
         # A greedy distribution algorithm running in O(len(groupSums) * len(nums)) time.
         # Algortihm minimizes the distribution distance function at each step. Distribution distance function is in the following form: (targetSums, currentSums, currentOperatingIndex, valueToAddToThatIndex) -> distance
         def split(groupSums: list[float], subgroups: list[int], distributionDistance: Callable[[list[float], list[float], int, float], int]) -> list[list[ListElement]]:
-            nums = [ListElement(x, i) for i, x in enumerate(subgroups)]
-            nums.sort(key=lambda x: x.value, reverse=True)
-            groups: list[list[ListElement]] = [[] for _ in groupSums] 
-            for _, num in enumerate(nums):
+            """
+            Splits the subgroups into groups to approach the groupSums. Value of a given distrubution is determined by the distributionDistance function.
+            """
+            nums = [ListElement(x, i) for i, x in enumerate(subgroups)] # An array of ListElements, the index is the id of the subgroup later used to reference it, value is the size of the subgroup
+            nums.sort(key=lambda x: x.value, reverse=True) # Sort the elements by value in descending order
+            groups: list[list[ListElement]] = [[] for _ in groupSums]  # list of groups to be returned
+            for num in nums: # Add each subgorup to a group, starting with the largest subgroup
                 bestIndex = None
                 bestValue = math.inf
-                for j, _ in enumerate(groupSums):
+                for j, _ in enumerate(groupSums): # Find the best group to add the subgroup to
                     value = distributionDistance(groupSums, list(map(groupSum, groups)), j, num.value)
                     if value < bestValue:
                         bestValue = value
@@ -62,6 +65,9 @@ class AgglomerativeClusteringSplitter(ISplitter):
             return groups
             
         def totalDistanceSquared(targetSums: list[float], currentSum: list[float], currentIndex: int, value: float) -> float:
+            """
+            Calculates the total distance squared between the targetSums and the currentSums.
+            """
             total = 0
             for i, targetSum in enumerate(targetSums):
                 if i == currentIndex:
@@ -71,6 +77,9 @@ class AgglomerativeClusteringSplitter(ISplitter):
             return total
 
         def totalRelativeDistanceSquared(targetSums: list[float], currentSum: list[float], currentIndex: int, value: float) -> float:
+            """
+            Calculates the total relative distance squared between the targetSums and the currentSums.
+            """
             total = 0
             for i, targetSum in enumerate(targetSums):
                 if i == currentIndex:
@@ -81,6 +90,9 @@ class AgglomerativeClusteringSplitter(ISplitter):
 
 
         def totalRelativeDistanceSquaredWithBiasAgainstOverflow(targetSums: list[float], currentSum: list[float], currentIndex: int, value: float) -> float:
+            """
+            Calculates the total relative distance squared between the targetSums and the currentSums. Also, if the value would overflow, the distance is greatly increased.
+            """
             total = 0
             for i, targetSum in enumerate(targetSums):
                 if i == currentIndex:
@@ -93,6 +105,9 @@ class AgglomerativeClusteringSplitter(ISplitter):
                     total += relDist**2
             return total
         def groupDistances(groups: list[list[int]], distances: IDistanceMatrix) -> list[list[float]]:
+            """
+            Calculates a distance matrix between given groups. The distance between two groups is defined as the minimal distance between any two elements from the groups.
+            """
             gDistances = [[1 for _ in range(len(groups))] for _ in range(len(groups))]
             for i in range(len(groups)):
                 for j in range(i + 1, len(groups)):
@@ -107,12 +122,13 @@ class AgglomerativeClusteringSplitter(ISplitter):
             return gDistances
         subgroups: list[TreeNode] = tree.getRoots()
 
-        for i in range(distances.getMatrixSize()):
-            subgroupsPopCount = [subgroup.absoluteChildCount() for subgroup in subgroups]
-            groups = split(groupSizes, subgroupsPopCount, totalRelativeDistanceSquaredWithBiasAgainstOverflow)
+        for i in range(distances.getMatrixSize()): # generates and yields splits
+            subgroupsPopCount = [subgroup.absoluteChildCount() for subgroup in subgroups] # absolute subgroup sizes
+            # Different split algorthims and value functions were in all testcases almost incosequential. With the nature of the data, it is expected for a large amount of size 1 subgroups to be created.
+            groups = split(groupSizes, subgroupsPopCount, totalRelativeDistanceSquaredWithBiasAgainstOverflow) # distributes the subgroups among groups using the provided value function
             
             finalSplit: list[list[int]] = []
-            for i, group in enumerate(groups):
+            for i, group in enumerate(groups): # transforms the groups of leafs of the tree into a list of lists of indices
                 finalSplit.append([])
                 for element in group:
                     finalSplit[i].extend([leaf.id for leaf in subgroups[element.index].leafs])
@@ -124,7 +140,7 @@ class AgglomerativeClusteringSplitter(ISplitter):
             currentDistance = totalRelativeDistanceSquaredWithBiasAgainstOverflow(groupSizes, [len(group) for group in groups], 0, 0)
             if self.headstartFactor == None: steps = 1
             else: steps = int(currentDistance / len(groups) * distances.getMatrixSize() / (self.headstartFactor - 1) + 1)
-            for _ in range(steps):
+            for _ in range(steps): # Splits the tree the calculated number of times, this is done more than once only to speed up the process. The number of steps is calculated based on the current distance between the groups and the headstart factor.
                 maxIndex = None
                 maxValue = 1
                 for i, subgroup in enumerate(subgroups):

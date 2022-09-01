@@ -15,6 +15,9 @@ class Split(ISplit):
         return str("\n".join(map(lambda x: f"[{', '.join(map(str, x))}]", self.splits())))
 
 class RandomSplitter(ISplitter):
+    """
+    !!!DO NOT USE THIS, THIS IS ONLY A TESTING TOOL!!!*
+    """
     def calculateSplit(self, distances: IDistanceMatrix, distribution: "list[int]") -> ISplit:
         lenght = distances.getMatrixSize()
         rv = []

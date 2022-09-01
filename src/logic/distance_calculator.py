@@ -7,6 +7,9 @@ from common.interfaces.distance_matrix import IDistanceMatrix
 
 
 class RandomDistanceCalculator(IDistanceCalculator):
+    """
+    !!!DO NOT USE THIS, THIS IS ONLY A TESTING TOOL!!!*
+    """
 
     def __init__(self):
         print(
