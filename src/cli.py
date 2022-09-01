@@ -27,7 +27,7 @@ class CLI:
         filenameAddition = "" if limit == None else f"_{limit}x{limit}"
         assetCount = assets.getAssetCount()
         manager = SplitManager(NumpyDistanceMatrixDiskBackup(assetCount, path(__file__, f"../data/out/matrix_BLOSUM62_SCORE{filenameAddition}.npy"), save_loop_length=100_000), assets,
-                               PairwiseAlignmentScoreDistanceCalculator(), AgglomerativeClusteringSplitter(headstartFactor=15))
+                               PairwiseAlignmentDistanceCalculator(), AgglomerativeClusteringSplitter(headstartFactor=15))
 
         t0 = time.time()
         manager.calculateDistances()
