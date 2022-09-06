@@ -27,7 +27,7 @@ Used to calculate the similarity (distance) between every combination of two cha
 #### DistanceMatrix
 Used to store the distance data in matrix form. Does not need to be filled sequentially.
   - *class NumpyDistanceMatrix* - Matrix that saves distances as 16 bit integers using *class numpy.ndarray*
-  - *class NumpyDistanceMatrixDiskBackup* - a variation of the *class NumpyDistanceMatrix*, that saves and loads the matrix in given intervals to the disk.
+  - *class NumpyDistanceMatrixDiskBackup* - a variation of *class NumpyDistanceMatrix*, that saves and loads the matrix in given intervals to the disk.
  #### Splitter
  Used to generate options for splits with different balances between matching the expected group size ratios and minimizing data leakage.
   - *class AglomerativeClusteringSplitter* - Splits the set into a tree using single linkage aglomerative clustring. Then generates splits with gradually increasing number of divisions of the tree. A headstart factor paramater can determine how many splits will happen at a time (can be used to speed up spliting and generate less useless splits).  
