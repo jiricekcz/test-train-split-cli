@@ -25,7 +25,7 @@ Used to manage the assets during the process. Main purpose is storage
 Used to calculate the similarity (distance) between every combination of two chains and fill it into a matrix. This is handled in such a way, that paralelization is an option (both local and remote).
   - *class PairwiseAlignmentDistanceCalculator* - Calculates the distance based on the best pairwise alignment of the two chains. Runs **single core only**. 
 #### DistanceMatrix
-Used to store the distance data in a matrix form. Does not need to be filled sequentially.
+Used to store the distance data in matrix form. Does not need to be filled sequentially.
   - *class NumpyDistanceMatrix* - Matrix that saves distances as 16 bit integers using *class numpy.ndarray*
   - *class NumpyDistanceMatrixDiskBackup* - a variation of the *class NumpyDistanceMatrix*, that saves and loads the matrix in given intervals to the disk.
  #### Splitter
