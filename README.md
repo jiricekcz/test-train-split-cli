@@ -38,13 +38,13 @@ The tree is created using scikits *class cluster.AgglomerativeClustering*. It is
     2. We take all the subclusters and sort them by their leaf count in descending order.
     3. We iterate through the subclusters and for every subcluster (in descending order) we find a final group, where the distance function is minimized. Then we assign this subcluster to this final group and continue with the next subcluster until all subclusters are assigned into a final group.
     4. We flatten the final groups to include the leaves, not the subclusters.
-    5. We calculate the minimal distance between groups (in some cases it can be larger than determined by the clustering because of imperfections in the algorithm).
-    6. We yield the split containing the leafs in each group and a minimal distance matrix for each group.
+    5. We calculate the minimal distance between groups (in some cases it can be larger than determined by the clustering, because of imperfections in the algorithm).
+    6. We yield the split containing the leafs in each final group and a minimal distance matrix for each group.
     7. We split the node with the highest clustering score into two, add them to the subclusters array and remove the original cluster.
-    8. If the headstart factor is used, we repeat step 7 mutliple times according to the headstart factor and the value of the distance function for the current split. If the headstart factor is bigger, the number of steps is bigger. If the current split is further from perfection, the number of steps is bigger.
+    8. If the headstart factor is used, we repeat step 7 multiple times according to the headstart factor and the value of the distance function for the current split. If the headstart factor is bigger, the number of steps is bigger. If the current split is further from perfection, the number of steps is bigger.
     9. We repeat from step 2 until the iteration is stopped or we split the tree into only leafs.  
   
-Notes: The tree has many size 1-5 subclusters from the begining, even if the tree has thousands of leaves in total. This is absolutly expected behaviour, as these small subclusters are chains, that are completly different from the others and as such have no real impact when it comes to data leakage and can essentially be used as infill. Mainly what we are trying to do, is prevent extremely similar chains from being in different final groups, which is achived, because the extremely similar chains will be at the bottom of the tree, not at the top. The fact, that there are many small subclusters also means, that the distribution of subclusters into final groups isn't that difficult, as simply putting the large subclusters where they fit and infilling the rest with microclusters is enough to reach an almost-optimal solution. This problem is a variation of the [Knapsack problem](https://en.wikipedia.org/wiki/Knapsack_problem), so the perfect solution would need to be computed in exponential time which is, for the amount of chains expected, not an option (and extreme overkill for reasons explained above). 
+Notes: The tree has many size 1-5 subclusters from the begining, even if the tree has thousands of leaves in total. This is absolutly expected behaviour, as these small subclusters are chains that are completly different from the others and as such have no real impact when it comes to data leakage and can essentially be used as infill. What we are mainly trying to do, is prevent extremely similar chains from being in different final groups. This is achieved, because the extremely similar chains will be at the bottom of the tree, not at the top. The fact that there are many small subclusters also means that the distribution of subclusters into final groups isn't that difficult, as simply putting the large subclusters where they fit and infilling the rest with microclusters is enough to reach an almost-optimal solution. This problem is a variation of the [Knapsack problem](https://en.wikipedia.org/wiki/Knapsack_problem), so the perfect solution would need to be computed in exponential time which is, for the amount of chains expected, not an option (and extreme overkill for reasons explained above).
     
 ### Wrapper
 The main process is wrapped in a few wrapper functions, that make space for possible CLI implementations as well as non-CLI usage.  
@@ -53,7 +53,7 @@ If it is run as CLI (*\_\_name\_\_ == "\_\_main\_\_"*), it runs *def pre_cli_onl
 
 ### Utilities
 Utility functions
-  - *def abs_path(__file, file)* - Used to calculate the absolute path of a file based on the path to the calle. This is used to make the execution predictable regardless of where the program is run from and its current working directory.
+  - *def abs_path(__file, file)* - Used to calculate the absolute path of a file based on the path to the caller. This is used to make the execution predictable regardless of where the program is run from and its current working directory.
  
 ### Exceptions
 Custom exceptions the program can raise
