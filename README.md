@@ -1,7 +1,7 @@
 # Test Train Split CLI
 ## Abstract
 This program is a python based CLI that should assist in spliting protein datasets into multiple groups while minimalizing data leakage.  
-It can achieve this using a combination of different methods for classifying similarity between chains and methods for spliting the chains based on that information.  
+It achieves this by using a combination of different methods for classifying similarities between chains and splitting the chains based on that information. 
 
 
 ## Code structure 
