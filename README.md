@@ -30,7 +30,7 @@ Used to store the distance data in matrix form. Does not need to be filled seque
   - *class NumpyDistanceMatrixDiskBackup* - a variation of *class NumpyDistanceMatrix*, that saves and loads the matrix to the disk at given intervals.
  #### Splitter
  Used to generate options for splits with different balances between matching the expected group size ratios and minimizing data leakage.
-  - *class AglomerativeClusteringSplitter* - Splits the set into a tree using single linkage aglomerative clustring. Then generates splits with gradually increasing number of divisions of the tree. A headstart factor paramater can determine how many splits will happen at a time (can be used to speed up spliting and generate less useless splits).  
+  - *class AglomerativeClusteringSplitter* - Splits the set into a tree using single linkage agglomerative clustering. Then generates splits with gradually increasing number of divisions of the tree. A headstart factor paramater can determine how many splits will happen at a time (can be used to speed up spliting and generate less useless splits).  
 The tree is created using scikits *class cluster.AgglomerativeClustering*. It is then transformed into a binary tree structure (saved using the node-references method). The function generates a split for every number of subclusters (the irrelevant ones can be skipped using the headstart factor parameter) in the following way:  
     1. We have:
         - subclusters - Array of tree nodes. Starting value is an array with one element - the root node. 
