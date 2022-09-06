@@ -8,7 +8,7 @@ It achieves this by using a combination of different methods for classifying sim
 ### Main process
 The process is divided into four main parts:
   1. Loading Assets (*class AssetLoader*, *class AssetManager*)
-  2. Calculating the similarity between all chains supplied (*class DistanceCalculator*)
+  2. Calculating the similarities between all chains supplied (*class DistanceCalculator*)
   3. Saving the similarities (*class DistanceMatrix*)
   4. Splitting the chains into groups (*class Splitter*)
 
