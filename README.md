@@ -17,10 +17,10 @@ Each part is represented by a class that needs to implement the respective inter
 The currently implemented classes are:
 #### AssetLoader
 Used to load chains for the process
-  - *class FastaAssetLoader* - A simple loader that loads chains from a fasta file
+  - *class FastaAssetLoader* - A simple loader that loads chains from a fasta file.
 #### AssetManager
 Used to manage the assets during the process. Main purpose is storage
-  - *class MemoryAssetManager* - A simple asset manager, that holds the chains in memory as strings using python variables
+  - *class MemoryAssetManager* - A simple asset manager that holds the chains in memory as strings using python variables.
 #### DistanceCalculator
 Used to calculate the similarity (distance) between every combination of two chains a fill it into a matrix. Handled in such way, that paralelization is an option (both local and remote).
   - *class PairwiseAlignmentDistanceCalculator* - Calculates the distance based on the best pairwise alignment of the two chains. Runs **single core only**. 
