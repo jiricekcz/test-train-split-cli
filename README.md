@@ -30,13 +30,13 @@ Used to store the distance data in matrix form. Does not need to be filled seque
   - *class NumpyDistanceMatrixDiskBackup* - a variation of *class NumpyDistanceMatrix*, that saves and loads the matrix to the disk at given intervals.
  #### Splitter
  Used to generate options for splits with different balances between matching the expected group size ratios and minimizing data leakage.
-  - *class AglomerativeClusteringSplitter* - Splits the set into a tree using single linkage agglomerative clustering. Then generates splits with a gradually increasing number of divisions of the tree. A headstart factor parameter can determine how many splits will happen at a time (can be used to speed up spliting and generate less useless splits).  
+  - *class AglomerativeClusteringSplitter* - Splits the set into a tree using single linkage agglomerative clustering. Then generates splits with a gradually increasing number of divisions of the tree. A headstart factor parameter can determine how many splits will happen at a time (can be used to speed up splitting and generate less useless splits).  
 The tree is created using scikits *class cluster.AgglomerativeClustering*. It is then transformed into a binary tree structure (saved using the node-references method). The function generates a split for every number of subclusters (the irrelevant ones can be skipped using the headstart factor parameter) in the following way:  
     1. We have:
         - subclusters - Array of tree nodes. Starting value is an array with one element - the root node. 
-        - a distance function - Function that determines the distance from perfection of a given distribution of subclusters into the final groups. This function should take into consideration the requested sizes of the final groups and the subclusters currenly in every final group. The exact form of this function is not as important as it seems, as will be explained bellow.
+        - a distance function - Function that determines the distance from perfection of a given distribution of subclusters into the final groups. This function should take into consideration the requested sizes of the final groups and the subclusters currenlty in every final group. The exact form of this function is not as important as it seems, as will be explained below.
     2. We take all the subclusters and sort them by their leaf count in descending order.
-    3. We iterate trough the subclusters and for every subcluster (in descending order) we find a final group, where the distance function is minimized. Then we assign this subcluster to this final group and continue with the next subcluster until all subclusters are assigned into a final group.
+    3. We iterate through the subclusters and for every subcluster (in descending order) we find a final group, where the distance function is minimized. Then we assign this subcluster to this final group and continue with the next subcluster until all subclusters are assigned into a final group.
     4. We flatten the final groups to include the leaves, not the subclusters.
     5. We calculate the minimal distance between groups (in some cases it can be larger, than determined by the clustering because of imperfections in the algorithm).
     6. We yield the split containing the leafs in each group and a minimal distance matrix for each group.
