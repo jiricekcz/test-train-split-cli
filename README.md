@@ -22,7 +22,7 @@ Used to load chains for the process
 Used to manage the assets during the process. Main purpose is storage
   - *class MemoryAssetManager* - A simple asset manager that holds the chains in memory as strings using python variables.
 #### DistanceCalculator
-Used to calculate the similarity (distance) between every combination of two chains a fill it into a matrix. Handled in such way, that paralelization is an option (both local and remote).
+Used to calculate the similarity (distance) between every combination of two chains and fill it into a matrix. This is handled in such a way, that paralelization is an option (both local and remote).
   - *class PairwiseAlignmentDistanceCalculator* - Calculates the distance based on the best pairwise alignment of the two chains. Runs **single core only**. 
 #### DistanceMatrix
 Used to store the distance data in a matrix form. Does not need to be filled sequentially.
