@@ -44,8 +44,8 @@ class AgglomerativeClusteringSplitter(ISplitter):
 
         def groupSum(group: "list[ListElement]") -> float:
                 return sum(map(lambda x: x.value, group))
-        # A greedy distribution algorithm running in O(len(groupSums) * len(nums)) time.
-        # Algortihm minimizes the distribution distance function at each step. Distribution distance function is in the following form: (targetSums, currentSums, currentOperatingIndex, valueToAddToThatIndex) -> distance
+        # A greedy distribution algorhithm running in O(len(groupSums) * len(nums)) time.
+        # Algorhithm minimizes the distribution distance function at each step. Distribution distance function is in the following form: (targetSums, currentSums, currentOperatingIndex, valueToAddToThatIndex) -> distance
         def split(groupSums: list[float], subgroups: list[int], distributionDistance: Callable[[list[float], list[float], int, float], int]) -> list[list[ListElement]]:
             """
             Splits the subgroups into groups to approach the groupSums. Value of a given distrubution is determined by the distributionDistance function.
