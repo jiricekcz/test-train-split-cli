@@ -38,7 +38,7 @@ The tree is created using scikits *class cluster.AgglomerativeClustering*. It is
     2. We take all the subclusters and sort them by their leaf count in descending order.
     3. We iterate through the subclusters and for every subcluster (in descending order) we find a final group, where the distance function is minimized. Then we assign this subcluster to this final group and continue with the next subcluster until all subclusters are assigned into a final group.
     4. We flatten the final groups to include the leaves, not the subclusters.
-    5. We calculate the minimal distance between groups (in some cases it can be larger, than determined by the clustering because of imperfections in the algorithm).
+    5. We calculate the minimal distance between groups (in some cases it can be larger than determined by the clustering because of imperfections in the algorithm).
     6. We yield the split containing the leafs in each group and a minimal distance matrix for each group.
     7. We split the node with the highest clustering score into two, add them to the subclusters array and remove the original cluster.
     8. If the headstart factor is used, we repeat step 7 mutliple times according to the headstart factor and the value of the distance function for the current split. If the headstart factor is bigger, the number of steps is bigger. If the current split is further from perfection, the number of steps is bigger.
