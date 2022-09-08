@@ -46,7 +46,7 @@ class AgglomerativeClusteringSplitter(ISplitter):
                 return sum(map(lambda x: x.value, group))
         # A greedy distribution algorhithm running in O(len(groupSums) * len(nums)) time.
         # Algorhithm minimizes the distribution distance function at each step. Distribution distance function is in the following form: (targetSums, currentSums, currentOperatingIndex, valueToAddToThatIndex) -> distance
-        def split(groupSums: list[float], subgroups: list[int], distributionDistance: Callable[[list[float], list[float], int, float], int]) -> list[list[ListElement]]:
+        def split(groupSums: "list[float]", subgroups: "list[int]", distributionDistance: "Callable[[list[float], list[float], int, float], int]") -> "list[list[ListElement]]":
             """
             Splits the subgroups into groups to approach the groupSums. Value of a given distrubution is determined by the distributionDistance function.
             """
@@ -64,7 +64,7 @@ class AgglomerativeClusteringSplitter(ISplitter):
                 groups[bestIndex].append(num)
             return groups
             
-        def totalDistanceSquared(targetSums: list[float], currentSum: list[float], currentIndex: int, value: float) -> float:
+        def totalDistanceSquared(targetSums: "list[float]", currentSum: "list[float]", currentIndex: int, value: float) -> float:
             """
             Calculates the total distance squared between the targetSums and the currentSums.
             """
@@ -76,7 +76,7 @@ class AgglomerativeClusteringSplitter(ISplitter):
                     total += (targetSum - currentSum[i])**2
             return total
 
-        def totalRelativeDistanceSquared(targetSums: list[float], currentSum: list[float], currentIndex: int, value: float) -> float:
+        def totalRelativeDistanceSquared(targetSums: "list[float]", currentSum: "list[float]", currentIndex: int, value: float) -> float:
             """
             Calculates the total relative distance squared between the targetSums and the currentSums.
             """
@@ -89,7 +89,7 @@ class AgglomerativeClusteringSplitter(ISplitter):
             return total
 
 
-        def totalRelativeDistanceSquaredWithBiasAgainstOverflow(targetSums: list[float], currentSum: list[float], currentIndex: int, value: float) -> float:
+        def totalRelativeDistanceSquaredWithBiasAgainstOverflow(targetSums: "list[float]", currentSum: "list[float]", currentIndex: int, value: float) -> float:
             """
             Calculates the total relative distance squared between the targetSums and the currentSums. Also, if the value would overflow, the distance is greatly increased.
             """
@@ -104,7 +104,7 @@ class AgglomerativeClusteringSplitter(ISplitter):
                 else:
                     total += relDist**2
             return total
-        def groupDistances(groups: list[list[int]], distances: IDistanceMatrix) -> list[list[float]]:
+        def groupDistances(groups: "list[list[int]]", distances: IDistanceMatrix) -> "list[list[float]]":
             """
             Calculates a distance matrix between given groups. The distance between two groups is defined as the minimal distance between any two elements from the groups.
             """
@@ -189,17 +189,17 @@ class TreeNode:
     def __str__(self) -> str:
         return f"Node<{self.id}, {'{0:.3f}'.format(self.depth)}>"
 class ClusterTree:
-    nodes: list[TreeNode] = []
+    nodes: "list[TreeNode]" = []
     def __init__(self, leafCount: int):
         self.leafCount = leafCount
         for i in range(leafCount):
             self.nodes.append(TreeNode(i, [], 0, True))
-    def addParent(self, id: int, childrenIds: list[int], depth: int) -> TreeNode:
+    def addParent(self, id: int, childrenIds: "list[int]", depth: int) -> TreeNode:
         children = [self.nodes[x] for x in childrenIds]
         node = TreeNode(id, children, depth, False)
         self.nodes.append(node)
         return node
-    def getRoots(self) -> list[TreeNode]:
+    def getRoots(self) -> "list[TreeNode]":
         return list(filter(lambda x: x.parent == None, self.nodes))
     def freezeTree(self) -> None:
         for node in self.nodes:
